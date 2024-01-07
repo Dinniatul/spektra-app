@@ -23,13 +23,13 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/register',[AuthController::class,'register']);
-Route::get('/login',[AuthController::class,'login']);
-Route::post('/loginProses',[AuthController::class,'loginProses']);
+Route::get('/register', [AuthController::class, 'register']);
+Route::get('/login', [AuthController::class, 'login']);
+Route::post('/loginProses', [AuthController::class, 'loginProses']);
 
 Route::get('/dashboard', [DashboardController::class, 'index']);
 
-Route::get('/dashboard/class/datatable', [App\Http\Controllers\ClassController::class, 'datatable'])->name('class/datatable');
+Route::get('/class/datatable', [App\Http\Controllers\ClassController::class, 'datatable'])->name('class/datatable');
 Route::get('/class', [App\Http\Controllers\ClassController::class, 'index']);
 Route::get('/class/show/{id}', [App\Http\Controllers\ClassController::class, 'show']);
 Route::get('/class/edit/{id}', [App\Http\Controllers\ClassController::class, 'edit']);
