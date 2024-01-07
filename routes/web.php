@@ -37,11 +37,11 @@ Route::post('/class/store', [App\Http\Controllers\ClassController::class, 'store
 Route::post('/class/update', [App\Http\Controllers\ClassController::class, 'update']);
 Route::get('/class/delete/{id}', [App\Http\Controllers\ClassController::class, 'destroy']);
 
-Route::get('/user/datatable', [App\Http\Controllers\UserController::class, 'datatable'])->name('user/datatable');
-Route::get('/user', [App\Http\Controllers\UserController::class, 'index']);
+Route::get('/user/datatable',[App\Http\Controllers\UserController::class, 'datatable'])->name('user/datatable');
+Route::get('/user',[App\Http\Controllers\UserController::class, 'index']);
 Route::get('/user/create', [App\Http\Controllers\UserController::class, 'create'])->name('user/create');
-Route::get('/user/show/{id}', [App\Http\Controllers\UserController::class, 'show']);
-Route::get('/user/edit/{id}', [App\Http\Controllers\UserController::class, 'edit']);
-Route::post('/user/store', [App\Http\Controllers\UserController::class, 'store'])->name('user/store');
-Route::post('/user/update', [App\Http\Controllers\UserController::class, 'update']);
-Route::get('/user/delete/{id}', [App\Http\Controllers\UserController::class, 'destroy']);
+Route::get('/user/show/{id}',[App\Http\Controllers\UserController::class, 'show']);
+Route::get('/user/edit/{id}',[App\Http\Controllers\UserController::class, 'edit']);
+Route::post('/user/store',[App\Http\Controllers\UserController::class, 'store'])->name('user/store');
+Route::post('/user/update/{id}',[App\Http\Controllers\UserController::class, 'update'])->name('user/update');
+Route::any('/user/delete/{id}',[App\Http\Controllers\UserController::class, 'destroy']);
