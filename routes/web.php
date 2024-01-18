@@ -29,6 +29,8 @@ Route::post('/registerProses',[AuthController::class,'registerProses']);
 Route::get('/login',[AuthController::class,'login']);
 Route::post('/loginProses',[AuthController::class,'loginProses']);
 
+Route::get('/logout',[AuthController::class,'logout']);
+
 Route::get('/dashboard', [DashboardController::class, 'index']);
 
 Route::get('/class/datatable',[App\Http\Controllers\ClassController::class, 'datatable'])->name('class/datatable');

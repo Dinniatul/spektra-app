@@ -64,4 +64,11 @@ class AuthController extends Controller
 
         return back()->with('errorLogin', 'Email or password invalid !');
     }
+
+    public function logout()
+    {
+        Auth::logout();
+
+        return redirect('/login'); // Change it to the appropriate route after logout
+    }
 }
