@@ -30,10 +30,9 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="user_id"><b>Name</b><span class="text-danger">*</span></label>
-                                    <input type="hidden" id="user_id" name="user_id">
+                                    <input type="hidden" id="user_id" name="user_id" >
                                     <select name="user_id" id="user_id"
                                         class="form-control form-control-sm col-md-12 {{ $errors->has('user_id') ? 'is-invalid' : '' }}">
-                                        <option value="">Choose Name</option>
                                         @foreach ($users as $user)
                                             <option value="{{ $user->id }}"
                                                 {{ old('user_id') == $user->id ? 'selected' : '' }}>
