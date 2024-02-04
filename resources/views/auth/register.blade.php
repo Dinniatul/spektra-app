@@ -8,7 +8,7 @@
         <!-- begin news-feed -->
         <div class="news-feed">
             <div class="news-image"
-                style="background-image: url('https://man1kotapadang.sch.id/wp-content/uploads/2023/08/WhatsApp-Image-2023-08-21-at-09.59.46-3.jpeg'); background-size: cover;">
+                style="background-image: url('{{ asset('img/asset2.jpeg') }}'); background-size: cover;">
             </div>
             <div class="news-caption">
                 <h4 class="caption-title"><b>Spektra</b>App</h4>
@@ -71,6 +71,9 @@
                         &copy; Kelompok 2 Spektra APP
                     </p>
                 </form>
+                <div class="text-center mt-3">
+                    <a href="{{ url('/') }}" class="btn btn-link">Back to Home</a>
+                </div>
             </div>
             <!-- end register-content -->
         </div>

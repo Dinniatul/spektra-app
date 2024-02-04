@@ -1,6 +1,6 @@
 @extends('layouts.default')
 
-@section('title', 'Extracurricular')
+@section('title', 'Extracurriculer')
 @push('css')
     <link href="{{ asset('/') }}assets/plugins/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
     <link href="{{ asset('/') }}assets/plugins/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css"
@@ -10,7 +10,7 @@
 @section('content')
     <ol class="breadcrumb float-xl-right">
         <li class="breadcrumb-item"><a href="javascript:;">Dashboard</a></li>
-        <li class="breadcrumb-item active">Class</li>
+        <li class="breadcrumb-item active">Extracurricular</li>
     </ol>
     <h1 class="page-header"><small><b>List Extracurricular</b></small></h1>
     <div class="row">
@@ -18,14 +18,13 @@
             <div class="panel panel-inverse">
                 <div class="panel-heading">
                     <h4 class="panel-title">Extracurricular</h4>
-                    
                     <div class="panel-heading-btn">
                         <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default"
                             data-click="panel-expand"><i class="fa fa-expand"></i></a>
                         <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning"
                             data-click="panel-collapse"><i class="fa fa-minus"></i></a>
-                            <a href="{{ route('extracurricular/create') }}" class="btn btn-xs btn-icon btn-circle btn-green"
-                            data-bs-toggle="tooltip" data-bs-placement="top" title="Add New User"><i
+                        <a href="{{ route('extracurricular/create') }}" class="btn btn-xs btn-icon btn-circle btn-green"
+                            data-bs-toggle="tooltip" data-bs-placement="top" title="Add New Student"><i
                                 class="fa fa-plus"></i></a>
                     </div>
                 </div>
@@ -33,7 +32,7 @@
                     <table id="data-table" width="100%" class="table table-striped table-bordered table-td-valign-middle">
                         <thead>
                             <tr>
-                                <th class="text-nowrap">Teacher</th>
+                                <th class="text-nowrap">Teacher Name</th>
                                 <th class="text-nowrap">Name</th>
                                 <th class="text-nowrap">Description</th>
                                 <th class="text-nowrap">Action</th>
@@ -41,7 +40,7 @@
                         </thead>
                         <tfoot>
                             <tr>
-                                <th class="text-nowrap">Teacher</th>
+                                <th class="text-nowrap">Teacher Name</th>
                                 <th class="text-nowrap">Name</th>
                                 <th class="text-nowrap">Description</th>
                                 <th class="text-nowrap">Action</th>
@@ -53,68 +52,7 @@
             </div>
         </div>
     </div>
-    {{-- <div class="modal fade" id="modal-dialog" style="display: none;" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Add New Extracurricular</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                </div>
-                <form action="{{ route('extracurricular/store') }}" method="POST" id="main_form">
-                    @csrf
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col-xl-12">
-                                <div class="panel-body">
-                                    <div class="form-group row m-b-15">
-                                        <label class="col-form-label col-md-3 form-control-sm"><b>Teacher</b> <span
-                                                class="text-danger">*</span></label>
-                                        <div class="col-md-9">
-                                            <select class="form-control form-control-sm" id="grade" name="grade">
-                                                <option value="" disabled="true" selected="true">Choose Grade
-                                                </option>
-                                                <option value="10">10</option>
-                                                <option value="11">11</option>
-                                                <option value="12">12</option>
-                                            </select>
-                                            <span class="text-danger error-text grade_error"></span>
-                                        </div>
-                                    </div>
-                                    <div class="form-group row m-b-15">
-                                        <label class="col-form-label col-md-3 form-control-sm"><b>Major</b> <span
-                                                class="text-danger">*</span></label>
-                                        <div class="col-md-9">
-                                            <select class="form-control form-control-sm" id="major_name" name="major_name">
-                                                <option value="" disabled="true" selected="true">Choose Major
-                                                </option>
-                                                <option value="IPA">IPA</option>
-                                                <option value="IPS">IPS</option>
-                                                <option value="Bahasa">Bahasa</option>
-                                            </select>
-                                            <span class="text-danger error-text major_name_error"></span>
-                                        </div>
-                                    </div>
-                                    <div class="form-group row m-b-15">
-                                        <label class="col-form-label col-md-3 form-control-sm"><b>Class</b> <span
-                                                class="text-danger">*</span></label>
-                                        <div class="col-md-9">
-                                            <input type="text" class="form-control form-control-sm"
-                                                placeholder="Enter Class" name="class_name" id="class_name" />
-                                            <span class="text-danger error-text class_name_error"></span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <a href="javascript:;" class="btn btn-white" data-dismiss="modal">Close</a>
-                        <button type="submit" class="btn btn-success">Submit</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div> --}}
+   
 @endsection
 
 @push('scripts')
@@ -133,10 +71,10 @@
                 stateSave: false,
                 scrollY: true,
                 scrollX: true,
-                ajax: "{{ url('class/datatable') }}",
+                ajax: "{{ url('extracurricular/datatable') }}",
                 columns: [{
-                        data: 'teacher_id',
-                        name: 'teacher_id'
+                        data: 'teacher_name',
+                        name: 'teacher_name'
                     },
                     {
                         data: 'name',
