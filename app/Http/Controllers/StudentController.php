@@ -57,13 +57,23 @@ class StudentController extends Controller
 
 
     public function create(){
+        $role = auth()->user()->role;
+
         $data = DB::table('t_student')
             ->join('users', 't_student.user_id', '=', 'users.id')
             ->join('t_class', 't_student.class_id', '=', 't_class.class_id')
             ->select('t_student.*', 't_class.class_name')
             ->first();
 
-        $users = DB::table('users')->where('role','=','Student')->get();
+       
+
+        if ($role == 'Super Admin') {
+            $users = DB::table('users')->get();
+        } else {
+            $currentUser = auth()->user();
+            $users = DB::table('users')->where('id', $currentUser->id)->get();
+        }
+       
         $class = DB::table('t_class')
         ->select('t_class.class_id',DB::raw('CONCAT(t_class.grade, " ", t_class.major_name, " ", t_class.class_name) as class_details'))
         ->get();
