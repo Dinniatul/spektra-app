@@ -139,10 +139,10 @@
                                             <td>
                                                 @if (auth()->user()->avatar == null)
                                                     <img src="{{ asset('images/img-not-available.jpg') }}" alt=""
-                                                        width="250px" height="250px">
+                                                         height="250px">
                                                 @else
                                                     <img src="{{ asset('upload/avatar') . '/' . auth()->user()->avatar }}"
-                                                        alt="" width="250px" height="250px">
+                                                        alt=""  height="250px">
                                                 @endif
                                             </td>
                                         </tr>

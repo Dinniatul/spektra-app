@@ -92,7 +92,6 @@
                                         <span class="text-danger error-text avatar_error"></span>
                                     </div>
                                 </div>
-
                                 <div class="form-group">
                                     @if (Auth::user()->role != 'Student')
                                         <label><b>Status</b> <span class="text-danger">*</span></label>

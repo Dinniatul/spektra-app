@@ -110,44 +110,54 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $data = User::find($id);
-
+    
         $validator = Validator::make($request->all(), User::$editRules, User::$customMessage);
-
+    
         if (!$validator->passes()) {
             return response()->json(['status' => 0, 'error' => $validator->errors()->toArray()]);
         }
-
+    
         // Check if a new avatar is uploaded
         if ($request->hasFile('avatar')) {
             // Delete the old avatar
             if ($data->avatar) {
-                unlink(public_path('/upload/avatar/' . $data->avatar));
+                $oldAvatarPath = public_path('upload/avatar/' . $data->avatar);
+    
+                if (file_exists($oldAvatarPath)) {
+                    unlink($oldAvatarPath);
+                }
             }
-
+    
             // Save the new avatar
             $extension = $request->file('avatar')->getClientOriginalExtension();
             $avatar = $request->name . '.' . $extension;
-            $request->file('avatar')->move(public_path('/upload/avatar/'), $avatar);
-
+            $request->file('avatar')->move(public_path('upload/avatar/'), $avatar);
+    
             $data->avatar = $avatar;
         }
-
+    
         $data->name = $request->name;
         $data->email = $request->email;
         $data->role = $request->role;
-
+    
         // Check if a password is provided
         if ($request->filled('password')) {
             $data->password = bcrypt($request->password);
         }
-
+    
         // Save the changes
         if ($data->save()) {
-            return response()->json(['status' => 1, 'url' => '/user', 'message' => 'User Updated Successfully!']);
+            if($data->role == 'Student'){
+                return response()->json(['status' => 1, 'url' => '/dashboard', 'message' => 'User Updated Successfully!']);
+            }else{
+                return response()->json(['status' => 1, 'url' => '/user', 'message' => 'User Updated Successfully!']);
+            }
+            
         } else {
             return response()->json(['status' => 0, 'error' => 'Failed to update user.']);
         }
     }
+    
 
     public function destroy($id){
         $user = User::find($id);
