@@ -82,10 +82,7 @@
                             <div class="form-group">
                                 <label><b>Role</b> <span class="text-danger">*</span></label>
                                 <select class="form-control form-control-sm" id="role" name="role">
-                                    <option value="" disabled="true" selected="true">Choose Level</option>
                                     <option value="Student" <?php echo $data->role == 'Student' ? 'selected' : ''; ?>>Student</option>
-                                    <option value="Admin" <?php echo $data->role == 'Admin' ? 'selected' : ''; ?>>Admin</option>
-                                    <option value="Super Admin" <?php echo $data->role == 'Super Admin' ? 'selected' : ''; ?>>Super Admin</option>
                                 </select>
                                 <span class="text-danger error-text role_error"></span>
                             </div>
