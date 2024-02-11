@@ -16,56 +16,87 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
+    // public function index()
+    // {
+    //     $data = User::all();
+    //     // dd($data);
+    //     return view('user.index',['data'=>$data[0]]);
+    // }
+
     public function index()
     {
-        $data = User::all();
-        return view('user.index',['data'=>$data[0]]);
+        // $data = User::all();
+
+        $role = auth()->user()->role;
+
+        if ($role == 'Super Admin') {
+            $user = User::all();
+        } else {
+            $currentUser = auth()->user();
+            $user = User::where('id', $currentUser->id)
+                ->get();
+
+            // dd($user);
+        }
+        return view('user.index', [
+            'user' => $user
+        ]);
     }
 
-    public function datatable(){
+    public function datatable()
+    {
+
+        $role = auth()->user()->role;
+
+        if ($role == 'Super Admin') {
             $data = DB::table('users')->get();
+        } else {
+            $currentUser = auth()->user();
+            $data = DB::table('users')->where('id', $currentUser->id)->get();
+        }
 
-            return Datatables::of($data)
-            ->addColumn('action', function($data){
-                if(auth()->user()->role == 'Super Admin') {
-                    $url_view = url('user/show/'.$data->id);
-                    $url_edit = url('user/edit/'.$data->id);
-                    $url_delete = url('user/delete/'.$data->id);
-                    $view = "<a class='btn btn-primary btn-icon btn-sm' href='".$url_view."' title='View ".$data->name."'><i class='nav-icon fas fa-search'></i></a>&nbsp;";
-                    $edit = "<a class='btn btn-warning btn-icon btn-sm' href='".$url_edit."' title='Edit'><i class='nav-icon fas fa-edit'></i></a>&nbsp;";
-                    $delete = "<button class='btn btn-danger btn-icon btn-sm' data-url='".$url_delete."' onclick='deleteData(this)' title='Delete'><i class='nav-icon fas fa-trash'></i></button>";
+        return Datatables::of($data)
+            ->addColumn('action', function ($data) {
+                if (auth()->user()->role == 'Super Admin') {
+                    $url_view = url('user/show/' . $data->id);
+                    $url_edit = url('user/edit/' . $data->id);
+                    $url_delete = url('user/delete/' . $data->id);
+                    $view = "<a class='btn btn-primary btn-icon btn-sm' href='" . $url_view . "' title='View " . $data->name . "'><i class='nav-icon fas fa-search'></i></a>&nbsp;";
+                    $edit = "<a class='btn btn-warning btn-icon btn-sm' href='" . $url_edit . "' title='Edit'><i class='nav-icon fas fa-edit'></i></a>&nbsp;";
+                    $delete = "<button class='btn btn-danger btn-icon btn-sm' data-url='" . $url_delete . "' onclick='deleteData(this)' title='Delete'><i class='nav-icon fas fa-trash'></i></button>";
 
-                    return $view."".$edit."".$delete;
-
-                }else{
-                    $url_view = url('user/show/'.$data->id);
-                    $view = "<a class='btn btn-primary btn-icon btn-sm' href='".$url_view."' title='View ".$data->name."'><i class='nav-icon fas fa-search'></i></a>&nbsp;";
+                    return $view . "" . $edit . "" . $delete;
+                } else {
+                    $url_view = url('user/show/' . $data->id);
+                    $view = "<a class='btn btn-primary btn-icon btn-sm' href='" . $url_view . "' title='View " . $data->name . "'><i class='nav-icon fas fa-search'></i></a>&nbsp;";
 
                     return $view;
                 }
             })
-            ->editColumn('name',function($data){
+            ->editColumn('name', function ($data) {
                 return str_ireplace("\r\n", ",", $data->name);
             })
-            ->editColumn('email',function($data){
+            ->editColumn('email', function ($data) {
                 return str_ireplace("\r\n", ",", $data->email);
             })
-            ->editColumn('role',function($data){
+            ->editColumn('role', function ($data) {
                 return str_ireplace("\r\n", ",", $data->role);
             })
             ->rawColumns(['action'])
             ->editColumn('id', 'ID:{{$id}}')
             ->make(true);
     }
-    public function create(){
+    public function create()
+    {
         $data = DB::table('users')->get();
-        return view('user/create',['data' => $data]);
+        return view('user/create', ['data' => $data]);
     }
-    public function store(Request $request){
+    public function store(Request $request)
+    {
         $validator = Validator::make($request->all(), User::$createRules, User::$customMessage);
 
         if (!$validator->passes()) {
-            return response()->json(['status'=>0, 'error'=>$validator->errors()->toArray()]);
+            return response()->json(['status' => 0, 'error' => $validator->errors()->toArray()]);
         } else {
             $avatarName = "";
 
@@ -94,18 +125,20 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($id){
+    public function show($id)
+    {
         $data = DB::table('users')
-                ->where('users.id','=',$id)->get();
-        return view('user/view',['data'=>$data[0]]);
+            ->where('users.id', '=', $id)->get();
+        return view('user/view', ['data' => $data[0]]);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit($id){
-        $data = User::where('id',$id)->get();
-        return view('user/edit',['data'=>$data[0]]);
+    public function edit($id)
+    {
+        $data = User::where('id', $id)->get();
+        return view('user/edit', ['data' => $data[0]]);
     }
     public function update(Request $request, $id)
     {
@@ -122,7 +155,7 @@ class UserController extends Controller
             // Delete the old avatar
             if ($data->avatar) {
                 $oldAvatarPath = public_path('upload/avatar/' . $data->avatar);
-    
+
                 if (file_exists($oldAvatarPath)) {
                     unlink($oldAvatarPath);
                 }
@@ -132,7 +165,7 @@ class UserController extends Controller
             $extension = $request->file('avatar')->getClientOriginalExtension();
             $avatar = $request->name . '.' . $extension;
             $request->file('avatar')->move(public_path('upload/avatar/'), $avatar);
-    
+
             $data->avatar = $avatar;
         }
     
@@ -147,26 +180,26 @@ class UserController extends Controller
     
         // Save the changes
         if ($data->save()) {
-            if($data->role == 'Student'){
+            if ($data->role == 'Student') {
                 return response()->json(['status' => 1, 'url' => '/dashboard', 'message' => 'User Updated Successfully!']);
-            }else{
+            } else {
                 return response()->json(['status' => 1, 'url' => '/user', 'message' => 'User Updated Successfully!']);
             }
-            
         } else {
             return response()->json(['status' => 0, 'error' => 'Failed to update user.']);
         }
     }
-    
 
-    public function destroy($id){
+    public function destroy($id)
+    {
         $user = User::find($id);
 
-        if( $user->delete() ){
-            return response()->json(['status'=>1, 'url'=>'/user','message'=>'User Deleted Succesfully!']);
+        if ($user->delete()) {
+            return response()->json(['status' => 1, 'url' => '/user', 'message' => 'User Deleted Succesfully!']);
         }
     }
-    public function profile($id){
+    public function profile($id)
+    {
         $data = User::find($id);
 
         if (!$data) {
@@ -175,7 +208,8 @@ class UserController extends Controller
 
         return view('user/profile', ['data' => $data]);
     }
-        public function update_profile(Request $request,$id){
+    public function update_profile(Request $request, $id)
+    {
         $data = User::find($id);
 
         $validator = Validator::make($request->all(), User::$editRules, User::$customMessage);
